@@ -12,7 +12,7 @@
 
     <style>
         .card{
-            margin-top: 24px;
+            margin-top: 16px;
         }
     </style>
 </head>
@@ -28,12 +28,6 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="#">Developer</a>
-            {% if user.is_authenticated %}
-            <a class="nav-item nav-link float-right" href="{% url 'logout' %}">{{ user.get_username }} Logout</a>
-            {% else %}
-            <a class="nav-item nav-link float-right" href="{% url 'login' %}">Login</a>
-            <a class="nav-item nav-link float-right" href="{% url 'signup' %}">Signup</a>
-            {% endif %}
         </div>
     </div>
 </nav>
@@ -41,21 +35,16 @@
 
 <main>
 
+
     <div class="container">
-
-        {% for subject in subjects %}
-        <div class="card text-white bg-dark mb-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ subject.title }}</h5>
-                <p class="card-text">{{ subject.description }}</p>
-                {% for link_wrapper in subject.linkwrapper_set.all %}
-                <a href="{{ link_wrapper.id }}" class="btn btn-light">{{ link_wrapper.title }}</a>
-                {% endfor %}
-            </div>
-        </div>
-        {% endfor %}
-
+        <h2>Signup</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">sign up</button>
+    </form>
     </div>
+
 
 </main>
 
