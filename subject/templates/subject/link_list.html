@@ -20,14 +20,21 @@
 
 <!--navbar  -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">CSEwale</a>
+    <a class="navbar-brand" href="{% url 'homepage' %}">CSEwale</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="{% url 'homepage' %}">Home</a>
+            <a class="nav-item nav-link active" href="">{{ wrapper.title }} <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="#">Developer</a>
+            {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="{% url 'logout' %}">{{ user.get_username }} Logout</a>
+            {% else %}
+            <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+            <a class="nav-item nav-link" href="{% url 'signup' %}">Signup</a>
+            {% endif %}
         </div>
     </div>
 </nav>
@@ -43,7 +50,11 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ link.title }}</h5>
                     <p class="card-text">{{ link.description }}</p>
-                    <a href="{{ link.link }}" class="btn btn-primary">download</a>
+                    <p class="text-info"> - By {{ link.contributor }}</p>
+                    <a href="{{ link.link }}" class="btn btn-primary" target="_blank">download</a>
+                    <hr>
+                    <a href="{% url 'like' wrapper_id link.id %}" class="btn btn-outline-info">Upvote | {{ link.like_set.all.count }} </a>
+                    <a href="{% url 'dislike' wrapper_id link.id %}" class="btn btn-outline-info">Downvote | {{ link.dislike_set.all.count }} </a>
                 </div>
             </div>
             {% endfor %}
