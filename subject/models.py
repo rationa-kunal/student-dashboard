@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
 
+
+
+
 class Subject(models.Model):
 
     title = models.CharField(max_length=10)
@@ -13,16 +16,20 @@ class Subject(models.Model):
 
 
 
+
+
 class LinkWrapper(models.Model):
 
-    wrapper_choice = [('PP', 'past papers'), ('PJ', 'practical journals'), ('NT', 'notes')]
+    # wrapper_choice = [('PP', 'past papers'), ('PJ', 'practical journals'), ('NT', 'notes')]
 
     title = models.CharField(max_length=100)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    wrapper = models.CharField(max_length=2, choices=wrapper_choice, default='XX')
+    # wrapper = models.CharField(max_length=2, choices=wrapper_choice, default='XX')
 
     def __str__(self):
         return self.title
+
+
 
 
 
@@ -41,9 +48,14 @@ class Link(models.Model):
         return self.title
 
 
+
+
+
 class Like(models.Model):
     user = models.ForeignKey(User)
     link = models.ForeignKey(Link)
+
+
 
 
 

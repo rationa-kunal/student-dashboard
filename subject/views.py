@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 
 from .models import Subject, LinkWrapper, Link, Like, Dislike
 from .forms import addLinkForm
@@ -9,15 +8,6 @@ from .forms import addLinkForm
 
 def list_subject(request):
     subjects = Subject.objects.all()
-    html = ""
-    for subject in subjects:
-        wrappers = subject.linkwrapper_set.all()
-        html+=subject.title
-        for wrapper in wrappers:
-            html+= "<br><br>"
-            html+=wrapper.title
-            html+= "<br>"
-            html+=str(wrapper.id) +"  "+ "<a href="+ str(wrapper.id) +">link</a>"
 
     context = {
         'subjects' : Subject.objects.all(),
@@ -27,14 +17,15 @@ def list_subject(request):
 
 
 
+
 def list_links(request, wrapper_id):
     wrapper = get_object_or_404(LinkWrapper, pk=wrapper_id)
     links = wrapper.link_set.all()
-
     context = {
         'wrapper_id': wrapper_id,
         'links': links,
         'wrapper': wrapper,
+        'form': False,
     }
 
     if not request.user.has_perm('subject.add_link'):
@@ -55,15 +46,12 @@ def list_links(request, wrapper_id):
 
     else:
         form = addLinkForm()
-    # likes = request.user.like_set.all()
-    context = {
-        'wrapper_id': wrapper_id,
-        'links': links,
-        'wrapper': wrapper,
-        'form': form,
-    }
+
+    context['form'] = form
 
     return render(request, 'subject/link_list.html', context)
+
+
 
 
 
