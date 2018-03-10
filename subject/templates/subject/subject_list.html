@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>{% block title %} csewale {% endblock %}</title>
+    <title>{% block title %} student-dashboard {% endblock %}</title>
 
     <style>
         .card{
@@ -17,13 +17,16 @@
         .right{
             float: right;
         }
+        main{
+            margin-bottom: 32px;
+        }
     </style>
 </head>
 <body>
 
 <!--navbar  -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'homepage' %}">CSEwale</a>
+    <a class="navbar-brand" href="{% url 'homepage' %}">student-dashboard</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
