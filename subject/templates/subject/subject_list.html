@@ -40,8 +40,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="{% url 'homepage' %}#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="https://www.myselfkunal.atwebpages.net">Developer</a>
+            <a class="nav-item nav-link active" href="{% url 'homepage' %}">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="http://myselfkunal.atwebpages.com">Developer</a>
             {% if user.is_authenticated %}
             <a class="nav-item nav-link float-right right" href="{% url 'logout' %}">{{ user.get_username }} Logout</a>
             {% else %}
