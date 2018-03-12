@@ -52,14 +52,14 @@ class Link(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(User)
-    link = models.ForeignKey(Link)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    link = models.ForeignKey(Link, on_delete=models.CASCADE)
 
 
 
 
 
 class Dislike(models.Model):
-    user = models.ForeignKey(User)
-    link = models.ForeignKey(Link)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    link = models.ForeignKey(Link, on_delete=models.CASCADE)
 
