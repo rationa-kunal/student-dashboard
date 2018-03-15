@@ -2,8 +2,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
-from .models import Subject, LinkWrapper, Link, Like, Dislike
-from .forms import addLinkForm
+from .models import Subject, LinkWrapper, Link, Like, Dislike, Tag
+from .forms import addLinkForm, addTagForm
+
+
+
+
+def greeting(request):
+    return render(request, 'subject/greeting.html', {})
+
+
 
 
 def list_subject(request):
@@ -68,19 +76,46 @@ def dislike(request, wrapper_id, link_id):
 
 
 
-# def add_link(request, wrapper_id):
-#     wrapper = get_object_or_404(LinkWrapper, pk=wrapper_id)
-#
-#     if request.method == "POST":
-#         form = addLinkForm(request.POST)
-#
-#         if form.is_valid():
-#             title = form.cleaned_data['title']
-#             description = form.cleaned_data['description']
-#             contributor = form.cleaned_data['contributor']
-#             link = form.cleaned_data['link']
-#             new_link = Link(title=title, description=description, link=link, linkwrapper=wrapper, contributor=contributor)
-#             new_link.save()
-#             return redirect('list_of_links', wrapper_id=wrapper_id)
-#
-#     else:
+
+def link_detail(request, link_id):
+    link = get_object_or_404(Link, pk=link_id)
+    wrapper = link.linkwrapper
+    wrapper_id = wrapper.pk
+    form = False
+    context = {
+        'link' : link,
+        'form' : False,
+        'tags' : link.tag.all(),
+        'wrapper_id' : wrapper_id,
+    }
+
+    if not request.user.has_perm('subject.add_link'):
+        return render(request, 'subject/link_detail.html', context)
+
+    if request.method == "POST":
+        form = addTagForm(request.POST)
+
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            choices = {'IP': 'imp',
+                       'PP': 'practical program',
+                       'PT': 'practical theory',
+                       'BF': 'by faculty',
+                       'VV': 'verified',
+                       'CL': 'cool',
+                       'GH': 'good handwriting'}
+            tag = get_object_or_404(Tag, title=choices[title])
+
+            if tag in link.tag.all():
+                return redirect('list_of_links', wrapper_id=wrapper_id)
+
+            link.tag.add(tag)
+
+            return redirect('list_of_links', wrapper_id=wrapper_id)
+
+    else:
+        form = addTagForm()
+
+    context['form'] = form
+
+    return render(request, 'subject/link_detail.html', context)

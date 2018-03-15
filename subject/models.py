@@ -20,15 +20,28 @@ class Subject(models.Model):
 
 class LinkWrapper(models.Model):
 
-    # wrapper_choice = [('PP', 'past papers'), ('PJ', 'practical journals'), ('NT', 'notes')]
-
     title = models.CharField(max_length=100)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    # wrapper = models.CharField(max_length=2, choices=wrapper_choice, default='XX')
 
     def __str__(self):
         return self.title
 
+
+
+
+
+class Tag(models.Model):
+
+    choices = [('imp','imp'),
+               ('practical program','practical program'),
+               ('practical theory','practical theory'),
+               ('by faculty','by faculty'),
+               ('verified','verified'),
+               ('cool','cool'),]
+    title = models.CharField(max_length=50, choices=choices)
+
+    def __str__(self):
+        return self.title
 
 
 
@@ -40,6 +53,7 @@ class Link(models.Model):
     link = models.URLField()
     linkwrapper = models.ForeignKey(LinkWrapper, on_delete=models.CASCADE)
     contributor = models.CharField(max_length=50, default="Anonymus")
+    tag = models.ManyToManyField(Tag)
 
     class meta:
         default_permissions = ()
