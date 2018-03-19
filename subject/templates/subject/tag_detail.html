@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ tag.title }} {% endblock %}
+
+
+{% block content %}
+
+<main>
+
+    <div class="container">
+
+        {% for t in tags %}
+        <a href="{% url 'tag_detail' t.pk %}" class="badge badge-info"> <i class="fa fa-hashtag"></i> {{t.title}} </a>
+        {% endfor %}
+        <hr>
+        <h2><i class="fa fa-hashtag"></i> {{tag.title}}</h2>
+
+        {% for link in links %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" style="display:inline">{{ link.title }} </h5>
+                {% for t in link.tag.all %}
+                <a href="{% url 'tag_detail' t.id %}" class="badge badge-info"> <i class="fa fa-hashtag"></i> {{ t.title }}</a>
+                {% endfor %}
+                <hr>
+                <p class="card-text">{{ link.description }}</p>
+                <p class="text-info"> - By {{ link.contributor }}</p>
+                <a href="{{ link.link }}" class="btn btn-primary" target="_blank"> <i class="fa fa-download"></i> download</a>
+                <a href="{% url 'link_detail' link.id %}" class="btn btn-secondary"> <i class="fa fa-eye"></i> more info</a>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</main>
+
+{% endblock %}

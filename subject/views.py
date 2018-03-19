@@ -28,11 +28,13 @@ def list_subject(request):
 
 def list_links(request, wrapper_id):
     wrapper = get_object_or_404(LinkWrapper, pk=wrapper_id)
+    subject = wrapper.subject
     links = wrapper.link_set.all()
     context = {
         'wrapper_id': wrapper_id,
         'links': links,
         'wrapper': wrapper,
+        'subject': subject,
         'form': False,
     }
 
@@ -80,13 +82,15 @@ def dislike(request, wrapper_id, link_id):
 def link_detail(request, link_id):
     link = get_object_or_404(Link, pk=link_id)
     wrapper = link.linkwrapper
+    subject = wrapper.subject
     wrapper_id = wrapper.pk
     form = False
     context = {
         'link' : link,
         'form' : False,
         'tags' : link.tag.all(),
-        'wrapper_id' : wrapper_id,
+        'subject' : subject,
+        'wrapper' : wrapper,
     }
 
     if not request.user.has_perm('subject.add_link'):
@@ -119,3 +123,19 @@ def link_detail(request, link_id):
     context['form'] = form
 
     return render(request, 'subject/link_detail.html', context)
+
+
+
+
+def tag_detail(request, tag_id):
+    tag = get_object_or_404(Tag, pk=tag_id)
+    tags = Tag.objects.all()
+    links = tag.link_set.all()
+
+    context = {
+        'tag' : tag,
+        'tags' : tags,
+        'links' : links,
+    }
+
+    return render(request, 'subject/tag_detail.html', context)

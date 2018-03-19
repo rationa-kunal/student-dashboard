@@ -25,7 +25,9 @@ SECRET_KEY = 'fq8w*b_&0hl2sf_@elp4r-q)p(e33j-^lanx1iojy95((zfqs1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'csedashboard.pythonanywhere.com',
+]
 
 
 # Application definition
